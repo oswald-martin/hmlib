@@ -5,7 +5,7 @@ from matplotlib import cm
 def wireframe(x, y, f, cstride=5, rstride=5):
     """creates a 3d wireframe plot with basic axis names x,y,z.
 
-    Edit return with set_title, set_xlabel etc.
+    Edit return with title(), xlabel() etc.
 
     Args:
         x (npArray): x values
@@ -30,7 +30,7 @@ def wireframe(x, y, f, cstride=5, rstride=5):
 def surface(x, y, f):
     """creates a 3d meshgrid plot with basic axis names x,y,z.
 
-    Edit return with set_title, set_xlabel etc.
+    Edit return with title(), xlabel() etc.
 
     Args:
         x (npArray): x values
@@ -53,7 +53,7 @@ def surface(x, y, f):
 def contour(x, y, f):
     """creates a 2d contour plot with basic axis names x,y.
 
-    Edit return with set_title, set_xlabel etc.
+    Edit return with title(), xlabel() etc.
 
     Args:
         x (npArray): x values

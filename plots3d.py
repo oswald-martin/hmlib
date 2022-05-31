@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 
+
 def wireframe(x, y, f, cstride=5, rstride=5):
     """creates a 3d wireframe plot with basic axis names x,y,z.
 
@@ -77,7 +78,7 @@ def contour(x, y, f):
 if __name__ == '__main__':
     x = np.linspace(0, 100, 100)
     y = np.linspace(0, np.pi/2, 100)
-    f = lambda x, y: (x ** 2) * np.sin(2 * y)/(9.81)
+    def f(x, y): return (x ** 2) * np.sin(2 * y)/(9.81)
     wireframe(x, y, f).show()
     surface(x, y, f).show()
     contour(x, y, f).show()

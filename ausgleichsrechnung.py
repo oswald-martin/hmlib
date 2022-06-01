@@ -34,7 +34,7 @@ def gauss_newton(f, x, y, lam0, tol, max_iter, pmax=5, damping=True):
     """Gedämpftes Gauss-Newton verfahren Ausgleichsrechnung.
 
     Args:
-        f (function): function(x, p) where p is npArray
+        f (function): function(x, p) where p is npArray of len lam0
         x (npArray): x datapoints
         y (npArray): y datapoints
         lam0 (npArray): initial p vector/guess

@@ -59,4 +59,4 @@ if __name__ == '__main__':
     tol = 1e-5
     max_iter = 10
 
-    print(newton(f, x0, tol, max_iter, simplyfied=False))
+    print(newton(f, x0, tol, max_iter, damping=False, simplyfied=True))

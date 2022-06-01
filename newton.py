@@ -2,7 +2,7 @@ import numpy as np
 import sympy
 import sympy as sp
 
-def newton(f, x0, tol, max_iter, pmax=10, damping=True):
+def newton(f, x0, tol, max_iter, pmax=10, damping=True, simplyfied=False):
     """Newton Verfahren zur Nullstellenbestimmung
 
     Args:
@@ -10,8 +10,9 @@ def newton(f, x0, tol, max_iter, pmax=10, damping=True):
         x0 (npArray): initial vector/guess
         tol (float): error tolerance from root of f
         max_iter (int): max number of iterations
-        pmax (int, optional): max damping value 2^pmax. Defaults to 10.
-        damping (bool, optional): enable damping. Defaults to True.
+        pmax (int, optional): max damping value 2^pmax. Defaults to 10
+        damping (bool, optional): enable damping. Defaults to True
+        simplyfied (bool, optional): uses simplyfied newton procedure. Defaults to False
 
     Returns:
         list: root of f containing names and values
@@ -26,7 +27,7 @@ def newton(f, x0, tol, max_iter, pmax=10, damping=True):
     xn = np.copy(x0)
     k = 0
     while np.linalg.norm(f(xn), 2) > tol and k < max_iter:
-        d = np.linalg.solve(df(xn), -1 * f(xn)).flatten()
+        d = np.linalg.solve(df(x0) if simplyfied else df(xn) , -1 * f(xn)).flatten()
         # damping
         if damping:
             p = 0
@@ -58,4 +59,4 @@ if __name__ == '__main__':
     tol = 1e-5
     max_iter = 10
 
-    print(newton(f, x0, tol, max_iter))
+    print(newton(f, x0, tol, max_iter, simplyfied=False))

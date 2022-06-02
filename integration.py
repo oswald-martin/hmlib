@@ -25,7 +25,7 @@ def trap_tab(x: np.ndarray, y: np.ndarray) -> float:
         y (npArray): y values
 
     Returns:
-        float: integral result.
+        float: integral result. call h2n() to change step width to number of segments
     """
     dx = x[1:] - x[:-1]
     dy = ( y[1:] + y[:-1] ) / 2
@@ -39,7 +39,7 @@ def trap(f: Callable[[float], float], a: float, b: float, n: int) -> float:
         f (function): function f(x) -> y
         a (float): integration start x-val
         b (float): integraton end x-val
-        n (int): number of segments
+        n (int): number of segments. call h2n() to change step width to number of segments
 
     Returns:
         float: integral result.
@@ -57,7 +57,7 @@ def recht(f: Callable[[float], float], a: float, b: float, n: int) -> float:
         f (function): function f(x) -> y
         a (float): integration start x-val
         b (float): integraton end x-val
-        n (int): number of segments
+        n (int): number of segments. call h2n() to change step width to number of segments
 
     Returns:
         float: integral result.
@@ -77,7 +77,7 @@ def simp(f: Callable[[float], float], a: float, b: float, n: int) -> float:
         f (function): function f(x) -> y
         a (float): integration start x-val
         b (float): integraton end x-val
-        n (int): number of segments
+        n (int): number of segments. call h2n() to change step width to number of segments
 
     Returns:
         float: integral result.
@@ -85,26 +85,26 @@ def simp(f: Callable[[float], float], a: float, b: float, n: int) -> float:
     return 1/3 * (trap(f,a,b,n) + 2*recht(f,a,b,n))
 
 
-def romb(f: Callable[[float], float], a: float, b: float, n: int, print_matrix=False) -> float:
+def romb(f: Callable[[float], float], a: float, b: float, m: int, print_matrix=False) -> float:
     """Integral mittels Romberg Extrapolazion.
 
     Args:
         f (function): function f(x) -> y
         a (float): integration start x-val
         b (float): integraton end x-val
-        n (int): number of segments
+        n (int): number romberg matrix rows
         print_matrix (bool, optional): print romberg matrix. Defaults to False
 
     Returns:
         float: integral result.
     """
-    M = np.zeros((n+1, n+1), dtype=np.float64)
+    M = np.zeros((m+1, m+1), dtype=np.float64)
     # First Column
-    M[:,0] = trap(f, a, b, np.power(2, range(0, n+1)))
+    M[:,0] = trap(f, a, b, np.power(2, range(0, m+1)))
     # Rest of columns recursively
-    for i in range(1,n+1):
+    for i in range(1,m+1):
         p = np.power(4, i)
-        M[:-i,i] = ( p * M[1:n+2-i,i-1] - M[:-i,i-1] ) / (p-1)
+        M[:-i,i] = ( p * M[1:m+2-i,i-1] - M[:-i,i-1] ) / (p-1)
     if print_matrix: print(M)
     return M[0,-1]
 

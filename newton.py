@@ -1,13 +1,13 @@
 import numpy as np
-import sympy
 import sympy as sp
 
-def newton(f, x0, tol, max_iter, pmax=10, damping=True, simplyfied=False):
-    """Newton Verfahren zur Nullstellenbestimmung
+
+def newton(f: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, pmax=10, damping=True, simplyfied=False):
+    """Newton Verfahren zur Nullstellenbestimmung für Systeme
 
     Args:
         f (Sympy Expr.): Sympy Expression (e.g Matrix)
-        x0 (npArray): initial vector/guess
+        x0 (ndarray): initial vector/guess
         tol (float): error tolerance from root of f
         max_iter (int): max number of iterations
         pmax (int, optional): max damping value 2^pmax. Defaults to 10
@@ -45,7 +45,10 @@ def newton(f, x0, tol, max_iter, pmax=10, damping=True, simplyfied=False):
     return list(zip(x, xn))
 
 
+
+####################################################################################################
 # EXAMPLE NEWTON
+####################################################################################################
 if __name__ == '__main__':
     x1, x2, x3 = sp.symbols('x1, x2, x3')
     X = sp.Matrix([x1, x2, x3])

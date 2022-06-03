@@ -6,8 +6,8 @@ def lagrange(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
     """Lagrange interpolation. suiteble for small datasets <20
 
     Args:
-        x (npArray): x values
-        y (npArray): y values
+        x (ndarray): x values
+        y (ndarray): y values
 
     Returns:
         function: interpolated function f(x_eval) -> y
@@ -25,12 +25,13 @@ def lagrange(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
     return np.vectorize(interpol)
 
 
+
 def nat_spline(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
     """Natural cubic spline interpolation. suiteble for medium datasets <50
 
     Args:
-        x (npArray): x values
-        y (npArray): y values
+        x (ndarray): x values
+        y (ndarray): y values
 
     Returns:
         function: interpolated function f(x_eval) -> y
@@ -73,9 +74,13 @@ def nat_spline(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
         return S[idx]@v
     return np.vectorize(interpol)
 
+
+
+####################################################################################################
 # EXAMPLE INTERPOLATE
+####################################################################################################
 if __name__ == '__main__':
     x = np.array([8, 10, 12, 14], dtype=np.float64)
     y = np.array([11.2, 13.4, 15.3, 19.5], dtype=np.float64)
     f_interpol = lagrange(x, y)
-    print(f_interpol(11))
+    print(f_interpol([10, 11, 12]))

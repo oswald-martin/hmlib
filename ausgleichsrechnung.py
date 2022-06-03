@@ -10,8 +10,8 @@ def ausgleich_plot(f, x, y, lo=None, hi=None, n=1000):
 
     Args:
         f (funktion): function(x) -> y
-        x (npArray): x values
-        y (npArray): y values
+        x (ndarray): x values
+        y (ndarray): y values
         lo (int, optional): lower bound. Defaults to x.min
         hi (int, optional): higher bound. Defaults to x.max
         n (int, optional): datapoints between lo and hi. Defaults to 1000.
@@ -34,10 +34,10 @@ def gauss_newton(f, x, y, lam0, tol, max_iter, pmax=5, damping=True):
     """Gedämpftes Gauss-Newton verfahren Ausgleichsrechnung.
 
     Args:
-        f (function): function(x, p) where p is npArray of len lam0
-        x (npArray): x datapoints
-        y (npArray): y datapoints
-        lam0 (npArray): initial p vector/guess
+        f (function): function(x, p) where p is ndarray of len lam0
+        x (ndarray): x datapoints
+        y (ndarray): y datapoints
+        lam0 (ndarray): initial p vector/guess
         tol (float): error tolarance
         max_iter (int): max number of iterations
         pmax (int, optional): max damping value 2^pmax. Defaults to 5.
@@ -91,7 +91,10 @@ def gauss_newton(f, x, y, lam0, tol, max_iter, pmax=5, damping=True):
     return F
 
 
+
+####################################################################################################
 # EXAMPLE GAUSS-NEWTON
+####################################################################################################
 if __name__ == '__main__':
     def f(x, p): return (p[0] + p[1] * 10**(p[2]+p[3] * x)) / (1 + 10**(p[2]+p[3] * x))
     x = np.array([2, 2.5, 3, 3.5, 4, 4.5, 5], dtype=np.float64)

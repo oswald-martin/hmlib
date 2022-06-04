@@ -1,11 +1,11 @@
-from typing import Callable
+from typing import Callable, overload
 import sympy as sp
 import numpy as np
 from plots import ausgleich_plot
 
 
 
-def gauss_newton(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam0: np.ndarray, tol: float, max_iter: int, pmax=5, damping=True):
+def gauss_newton_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam0: np.ndarray, tol: float, max_iter: int, pmax=5, damping=True):
     """Gedämpftes Gauss-Newton verfahren Ausgleichsrechnung.
 
     Args:
@@ -69,8 +69,24 @@ def __get_normalen_A__(f, x, lam_nr):
         A[:,i] = f_vec(x, lam_mat[i])
     return A
 
+@overload
+def linear_ausg(f: Callable[[np.ndarray, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam_nr: int):
+    ...
+@overload
 def linear_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam_nr: int):
-    # fit function
+    """Lineare Ausgleichsrechnung
+
+    Args:
+        f (function): function(x, p) where p is lambda ndarray
+        x (ndarray): x datapoints
+        y (ndarray): y datapoints
+        lam_nr (int): number of lambdas in the function f
+
+    Returns:
+        function: fittet function f(x) -> y
+    """
+    ...
+def linear_ausg(f, x, y, lam_nr):
     A = __get_normalen_A__(f, x, lam_nr)
     q, r = np.linalg.qr(A)
     lamb = np.linalg.solve(r, q.T @ y)
@@ -80,22 +96,22 @@ def linear_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.nd
 
 
 ####################################################################################################
-# EXAMPLE GAUSS-NEWTON
+# EXAMPLE AUSGLEICHSRECHNUNG
 ####################################################################################################
 if __name__ == '__main__':
-    f = lambda x, p: (p[0] + p[1] * 10**(p[2]+p[3] * x)) / (1 + 10**(p[2]+p[3] * x))
-    x = np.array([2, 2.5, 3, 3.5, 4, 4.5, 5], dtype=np.float64)
-    y = np.array([159.57, 159.88, 159.89, 160.30, 160.84, 160.94, 161.56], dtype=np.float64)
-    lam0 = np.array([100, 120, 3, -1], dtype=np.float64)
+    f = lambda x, p: p[0] * np.e ** (p[1] * x)
+    x = np.array([0, 1, 2, 3, 4])
+    y = np.array([3, 1, 0.5, 0.2, 0.05])
+    lam0 = np.array([2, 2])
     tol = 1e-5
     max_iter = 30
     pmax = 5
     damping = True
-    F = gauss_newton(f, x, y, lam0, tol, max_iter, pmax, damping)
+    F = gauss_newton_ausg(f, x, y, lam0, tol, max_iter, pmax, damping)
     ausgleich_plot(F, x, y).show()
 
     x = [1, 2, 3, 4]
     y = [6, 6.8, 10, 10.5]
     f = lambda x, p: p[0]*x + p[1]
-    F = linear(f, x, y, 2)
+    F = linear_ausg(f, x, y, 2)
     ausgleich_plot(F, x, y).show()

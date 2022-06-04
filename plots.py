@@ -3,6 +3,35 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 
+def plot_vector_field(f: Callable[[float], float], xmin: float, xmax: float, ymin: float, ymax: float, hx: float, hy: float):
+    """plottet ein vektorfeld
+
+    Args:
+        f (function): y' = f(x, y)
+        xmin (float): start x value
+        xmax (float): end x value
+        ymin (float): start y value
+        ymax (float): end y value
+        hx (float): x step width
+        hy (float): y step width
+
+    Returns:
+        plt: plt object. use plt.show() to show it.
+    """
+    x = np.arange(xmin, xmax + hx,hx)
+    y = np.arange(ymin, ymax+ hy,hy)
+    [x,y] = np.meshgrid(x,y)
+    dy = f(x,y)
+    dx = np.ones(np.shape(dy))
+    dz = np.sqrt(dx**2 + dy**2)
+    dx = dx/dz
+    dy = dy/dz
+    plt.quiver(x,y,dx,dy, angles='xy', width=0.003 )
+    plt.xlim(xmin - hx, xmax + hx)
+    plt.ylim(ymin - hy, ymax + hy)
+    return plt
+
+
 
 def ausgleich_plot(f: Callable[[float], float], x: np.ndarray, y: np.ndarray, lo=None, hi=None, n=1000):
     """plottet x,y Werte sowie n datenpunkte der funktion f

@@ -51,7 +51,6 @@ def newton(f: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, pmax=10, dampi
 ####################################################################################################
 if __name__ == '__main__':
     x1, x2, x3 = sp.symbols('x1, x2, x3')
-    X = sp.Matrix([x1, x2, x3])
 
     f1 = x1 + x2 ** 2 + x3 ** 2 - 13
     f2 = sp.ln(x2 / 4) + sp.exp(0.5 * x3 - 1) - 1

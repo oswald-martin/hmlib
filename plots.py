@@ -20,8 +20,8 @@ def ausgleich_plot(f: Callable[[float], float], x: np.ndarray, y: np.ndarray, lo
     Returns:
         plt: plt object. use plt.show() to show it.
     """
-    lo = lo if lo != None else x.min()
-    hi = hi if hi != None else x.max()
+    lo = lo if lo != None else np.min(x)
+    hi = hi if hi != None else np.max(x)
     plt.plot(x, y, 'o')
     xx = np.linspace(lo, hi, n)
     plt.plot(xx, f(xx))

@@ -56,7 +56,7 @@ def butcher(f: Callable[[float, float], float], lo: float, hi: float, n: int, y0
     """
     ...
 @overload
-def butcher(f: Callable[[float, float], float], lo: float, hi: float, n: int, y0: float, a: np.ndarray, b: np.ndarray, c: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+def butcher(f: Callable[[float, np.ndarray], np.ndarray], lo: float, hi: float, n: int, y0: np.ndarray, a: np.ndarray, b: np.ndarray, c: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     """Custom Butcher table für DGL Systeme
 
     Args:
@@ -73,7 +73,7 @@ def butcher(f: Callable[[float, float], float], lo: float, hi: float, n: int, y0
         Tuple[ndarray, ndarray]: x, y values for numeric dgl solution
     """
     ...
-def butcher(f: Callable[[float, float], float], lo: float, hi: float, n: int, y0: float, a: np.ndarray, b: np.ndarray, c: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+def butcher(f, lo, hi, n, y0, a, b, c):
     if len(np.shape(a)) == 1:
         a = __tril_a__(a)
     h = np.divide(hi-lo, n)

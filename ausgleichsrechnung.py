@@ -1,40 +1,15 @@
+from typing import Callable
 import sympy as sp
 import numpy as np
-import matplotlib.pyplot as plt
+from plots import ausgleich_plot
 
 
-def ausgleich_plot(f, x, y, lo=None, hi=None, n=1000):
-    """plottet x,y Werte sowie n datenpunkte der funktion f
 
-    Edit return with title(), xlabel() etc.
-
-    Args:
-        f (funktion): function(x) -> y
-        x (ndarray): x values
-        y (ndarray): y values
-        lo (int, optional): lower bound. Defaults to x.min
-        hi (int, optional): higher bound. Defaults to x.max
-        n (int, optional): datapoints between lo and hi. Defaults to 1000.
-
-    Returns:
-        plt: plt object. use plt.show() to show it.
-    """
-    lo = lo if lo != None else x.min()
-    hi = hi if hi != None else x.max()
-    plt.plot(x, y, 'o')
-    xx = np.linspace(lo, hi, n)
-    plt.plot(xx, f(xx))
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.title('Ausgleichsrechnung')
-    return plt
-
-
-def gauss_newton(f, x, y, lam0, tol, max_iter, pmax=5, damping=True):
+def gauss_newton(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam0: np.ndarray, tol: float, max_iter: int, pmax=5, damping=True):
     """Gedämpftes Gauss-Newton verfahren Ausgleichsrechnung.
 
     Args:
-        f (function): function(x, p) where p is ndarray of len lam0
+        f (function): function(x, p) where p is lambda ndarray
         x (ndarray): x datapoints
         y (ndarray): y datapoints
         lam0 (ndarray): initial p vector/guess
@@ -52,13 +27,11 @@ def gauss_newton(f, x, y, lam0, tol, max_iter, pmax=5, damping=True):
     Dg = g.jacobian(p)
     g = sp.lambdify([p], g, 'numpy')
     Dg = sp.lambdify([p], Dg, 'numpy')
-
     # Numpy
     k = 0
     lam = np.copy(lam0)
     increment = tol+1
     err_func = np.linalg.norm(g(lam))**2
-
     # Gauss-Newton
     while increment > tol and k < max_iter:
         [Q, R] = np.linalg.qr(Dg(lam))
@@ -82,12 +55,26 @@ def gauss_newton(f, x, y, lam0, tol, max_iter, pmax=5, damping=True):
         print(f'Inkrement = {increment}')
         print(f'Fehlerfunktional = {err_func}')
         print('')
-
     # create func
     t = sp.symbols('t')
     F = f(t, lam)
     F = sp.lambdify([t], F, 'numpy')
+    return F
 
+def __get_normalen_A__(f, x, lam_nr):
+    f_vec = np.vectorize(f, excluded=[1])
+    lam_mat = np.eye(lam_nr)
+    A = np.zeros((len(x), np.max([len(np.array([x[0]]).flatten()), lam_nr])))
+    for i in range(lam_nr):
+        A[:,i] = f_vec(x, lam_mat[i])
+    return A
+
+def linear(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam_nr: int):
+    # fit function
+    A = __get_normalen_A__(f, x, lam_nr)
+    q, r = np.linalg.qr(A)
+    lamb = np.linalg.solve(r, q.T @ y)
+    def F(x): return f(x, lamb)
     return F
 
 
@@ -96,7 +83,7 @@ def gauss_newton(f, x, y, lam0, tol, max_iter, pmax=5, damping=True):
 # EXAMPLE GAUSS-NEWTON
 ####################################################################################################
 if __name__ == '__main__':
-    def f(x, p): return (p[0] + p[1] * 10**(p[2]+p[3] * x)) / (1 + 10**(p[2]+p[3] * x))
+    f = lambda x, p: (p[0] + p[1] * 10**(p[2]+p[3] * x)) / (1 + 10**(p[2]+p[3] * x))
     x = np.array([2, 2.5, 3, 3.5, 4, 4.5, 5], dtype=np.float64)
     y = np.array([159.57, 159.88, 159.89, 160.30, 160.84, 160.94, 161.56], dtype=np.float64)
     lam0 = np.array([100, 120, 3, -1], dtype=np.float64)
@@ -104,6 +91,11 @@ if __name__ == '__main__':
     max_iter = 30
     pmax = 5
     damping = True
-
     F = gauss_newton(f, x, y, lam0, tol, max_iter, pmax, damping)
+    ausgleich_plot(F, x, y).show()
+
+    x = [1, 2, 3, 4]
+    y = [6, 6.8, 10, 10.5]
+    f = lambda x, p: p[0]*x + p[1]
+    F = linear(f, x, y, 2)
     ausgleich_plot(F, x, y).show()

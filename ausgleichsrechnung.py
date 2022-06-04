@@ -69,7 +69,7 @@ def __get_normalen_A__(f, x, lam_nr):
         A[:,i] = f_vec(x, lam_mat[i])
     return A
 
-def linear(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam_nr: int):
+def linear_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam_nr: int):
     # fit function
     A = __get_normalen_A__(f, x, lam_nr)
     q, r = np.linalg.qr(A)

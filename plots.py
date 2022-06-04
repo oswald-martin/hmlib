@@ -65,9 +65,9 @@ def wireframe(f: Callable[[float, float], float], x: np.ndarray, y: np.ndarray, 
     Edit return with title(), xlabel() etc.
 
     Args:
+        f (function): f(x, y) -> z
         x (ndarray): x values
         y (ndarray): y values
-        f (function): f(x, y) -> z
         cstride (int, optional): column stride. Defaults to 5
         rstride (int, optional): row stride. Defaults to 5
 
@@ -90,9 +90,9 @@ def surface(f: Callable[[float, float], float], x: np.ndarray, y: np.ndarray):
     Edit return with title(), xlabel() etc.
 
     Args:
+        f (function): f(x, y) -> z
         x (ndarray): x values
         y (ndarray): y values
-        f (function): f(x, y) -> z
 
     Returns:
         plt: plt object. use plt.show() to show it.
@@ -113,9 +113,9 @@ def contour(f: Callable[[float, float], float], x: np.ndarray, y: np.ndarray):
     Edit return with title(), xlabel() etc.
 
     Args:
+        f (function): f(x, y) -> z
         x (ndarray): x values
         y (ndarray): y values
-        f (function): f(x, y) -> z
 
     Returns:
         plt: plt object. use plt.show() to show it.

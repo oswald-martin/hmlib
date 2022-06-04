@@ -1,9 +1,36 @@
+from typing import Callable
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 
 
-def wireframe(x, y, f, cstride=5, rstride=5):
+def ausgleich_plot(f: Callable[[float], float], x: np.ndarray, y: np.ndarray, lo=None, hi=None, n=1000):
+    """plottet x,y Werte sowie n datenpunkte der funktion f
+
+    Edit return with title(), xlabel() etc.
+
+    Args:
+        f (funktion): function(x) -> y
+        x (ndarray): x values
+        y (ndarray): y values
+        lo (int, optional): lower bound. Defaults to x.min
+        hi (int, optional): higher bound. Defaults to x.max
+        n (int, optional): datapoints between lo and hi. Defaults to 1000.
+
+    Returns:
+        plt: plt object. use plt.show() to show it.
+    """
+    lo = lo if lo != None else x.min()
+    hi = hi if hi != None else x.max()
+    plt.plot(x, y, 'o')
+    xx = np.linspace(lo, hi, n)
+    plt.plot(xx, f(xx))
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Ausgleichsrechnung')
+    return plt
+
+def wireframe(f: Callable[[float, float], float], x: np.ndarray, y: np.ndarray, cstride=5, rstride=5):
     """creates a 3d wireframe plot with basic axis names x,y,z.
 
     Edit return with title(), xlabel() etc.
@@ -28,7 +55,7 @@ def wireframe(x, y, f, cstride=5, rstride=5):
     return plt
 
 
-def surface(x, y, f):
+def surface(f: Callable[[float, float], float], x: np.ndarray, y: np.ndarray):
     """creates a 3d meshgrid plot with basic axis names x,y,z.
 
     Edit return with title(), xlabel() etc.
@@ -51,7 +78,7 @@ def surface(x, y, f):
     return plt
 
 
-def contour(x, y, f):
+def contour(f: Callable[[float, float], float], x: np.ndarray, y: np.ndarray):
     """creates a 2d contour plot with basic axis names x,y.
 
     Edit return with title(), xlabel() etc.

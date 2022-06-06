@@ -8,6 +8,9 @@ from plots import ausgleich_plot
 def gauss_newton_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam0: np.ndarray, tol: float, max_iter: int, pmax=5, damping=True):
     """Gedämpftes Gauss-Newton verfahren Ausgleichsrechnung.
 
+
+        Use Sympy expressions in function f (e.g sp.exp(), sp.sin())
+
     Args:
         f (function): function(x, p) where p is lambda ndarray
         x (ndarray): x datapoints
@@ -99,7 +102,7 @@ def linear_ausg(f, x, y, lam_nr):
 # EXAMPLE AUSGLEICHSRECHNUNG
 ####################################################################################################
 if __name__ == '__main__':
-    f = lambda x, p: p[0] * np.e ** (p[1] * x)
+    f = lambda x, p: p[0] * sp.exp(p[1] * x)
     x = np.array([0, 1, 2, 3, 4])
     y = np.array([3, 1, 0.5, 0.2, 0.05])
     lam0 = np.array([2, 2])

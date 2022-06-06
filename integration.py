@@ -112,6 +112,8 @@ def romb(f: Callable[[float], float], a: float, b: float, m: int, print_matrix=F
     if print_matrix: print(M)
     return M[0,-1]
 
+
+
 def gauss(f: Callable[[float], float], a: float, b: float, n = 3):
     """Integration mittels Gaussformeln für n = 1, 2 und 3
 

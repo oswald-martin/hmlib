@@ -112,6 +112,27 @@ def romb(f: Callable[[float], float], a: float, b: float, m: int, print_matrix=F
     if print_matrix: print(M)
     return M[0,-1]
 
+def gauss(f: Callable[[float], float], a: float, b: float, n = 3):
+    """Integration mittels Gaussformeln für n = 1, 2 und 3
+
+    Args:
+        f (function): function f(x) -> y
+        a (float): integration start x-val
+        b (float): integration end x-val
+        n (_type_, optional): Gauss formel Nr. (1, 2, 3). Defaults to 3.
+
+    Returns:
+        _type_: _description_
+    """
+    if n == 1:
+        return (b-a) * f((b+a)/2)
+    if n == 2:
+        sqrt3 = np.sqrt(3)
+        return (b-a)/2 * (f(-1/sqrt3 * (b-a)/2 + (b+a)/2) + f(1/sqrt3 * (b-a)/2 + (b+a)/2))
+    if n == 3:
+        sqrt06 = np.sqrt(0.6)
+        return (b-a)/2 * (5/9 * f(-sqrt06 * (b-a)/2 + (b+a)/2) + 8/9 * f((b+a)/2) + 5/9 * f(sqrt06 * (b-a)/2 + (b+a)/2))
+    raise 'n needs to be 1, 2 or 3!'
 
 
 ####################################################################################################

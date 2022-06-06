@@ -25,8 +25,9 @@ def newton(f: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, pmax=10, dampi
 
     # Numpy
     xn = np.copy(x0)
-    k = 0
-    while np.linalg.norm(f(xn), 2) > tol and k < max_iter:
+    k = 1
+    while np.linalg.norm(f(xn), 2) > tol and k <= max_iter:
+        print(f'it:\t {k}')
         d = np.linalg.solve(df(x0) if simplyfied else df(xn) , -1 * f(xn)).flatten()
         # damping
         if damping:
@@ -38,10 +39,13 @@ def newton(f: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, pmax=10, dampi
             if p == 0:
                 xn = xn + d
             else:
-                print(f'damping with p={p}\n')
+                print(f'damping with p={p}')
                 xn = xn + d / (2 ** p)
         else:
             xn = xn + d
+        print(f'x{k} =\t {xn}') 
+        print(f'd{k} =\t {d}\n')
+        k = k + 1
     return list(zip(x, xn))
 
 

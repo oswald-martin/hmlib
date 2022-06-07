@@ -136,7 +136,7 @@ def err_est(f: sp.Expr, a: float, b: float, tol: float, type: str) -> float:
         type (str): 'R': Rechteck, 'T': Trapez, 'S': Simpson
 
     Returns:
-        float: Max Schrittbreite
+        float: Max step width. choose h smaller or equal to this. 
     """
     assert type in ['R', 'T', 'S'], "Type needs to be 'R', 'T' or 'S'"
     a, b = float(a), float(b)

@@ -126,13 +126,27 @@ def gauss(f: Callable[[float], float], a: float, b: float, n = 3):
 
 
 def err_est(f: sp.Expr, a: float, b: float, tol: float, type: str) -> float:
+    """Fehlerabschätzung für summierte quadraturformeln
+
+    Args:
+        f (Sympy Expr.): Sympy function f(x)
+        a (float): lower bound
+        b (float): higher bound
+        tol (float): error tolerance
+        type (str): 'R': Rechteck, 'T': Trapez, 'S': Simpson
+
+    Returns:
+        float: Max Schrittbreite
+    """
     assert type in ['R', 'T', 'S'], "Type needs to be 'R', 'T' or 'S'"
     a, b = float(a), float(b)
     x = list(f.free_symbols)[0]
     fd = sp.diff(f, x, 4 if type == ('S' or 's') else 2)
+    print(f'fd: {fd}')
     fdpos = float(sp.Float(sp.maximum(fd, x, sp.Interval(a, b))))
     fdneg = float(sp.Float(sp.maximum(-fd, x, sp.Interval(a, b))))
     fdmax = np.max([fdpos, fdneg])
+    print(f'fd_max: {fdmax}')
     if type == 'R':
         return np.sqrt((tol * 24) / (fdmax * (b-a)))
     if type == 'T':

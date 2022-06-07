@@ -1,7 +1,6 @@
 from typing import Callable, overload
 import sympy as sp
 import numpy as np
-from plots import ausgleich_plot
 
 
 
@@ -77,7 +76,7 @@ def linear_ausg(f: Callable[[np.ndarray, np.ndarray], float], x: np.ndarray, y: 
     ...
 @overload
 def linear_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam_nr: int):
-    """Lineare Ausgleichsrechnung
+    """Lineare Ausgleichsrechnung. Methode der kleinsten Quadrate.
 
     Args:
         f (function): function(x, p) where p is lambda ndarray
@@ -102,6 +101,7 @@ def linear_ausg(f, x, y, lam_nr):
 # EXAMPLE AUSGLEICHSRECHNUNG
 ####################################################################################################
 if __name__ == '__main__':
+    from plots import ausgleich_plot
     f = lambda x, p: p[0] * sp.exp(p[1] * x)
     x = np.array([0, 1, 2, 3, 4])
     y = np.array([3, 1, 0.5, 0.2, 0.05])

@@ -4,7 +4,7 @@ import numpy as np
 
 
 
-def gauss_newton_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam0: np.ndarray, tol: float, max_iter: int, pmax=5, damping=True):
+def gauss_newton_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam0: np.ndarray, tol: float, max_iter: int, pmax=5, damping=True) -> Callable[[float], float]:
     """Gedämpftes Gauss-Newton verfahren Ausgleichsrechnung.
 
 
@@ -94,6 +94,21 @@ def linear_ausg(f, x, y, lam_nr):
     lamb = np.linalg.solve(r, q.T @ y)
     def F(x): return f(x, lamb)
     return F
+
+
+
+def fehlerfunktional(f: Callable[[float], float], x: np.ndarray, y: np.ndarray):
+    """Rechnet das Fehlerfunktional E einer gefitteten Ausgleichsfunktion
+
+    Args:
+        f (function): Ausgleichsfunktion f(x) -> y
+        x (ndarray): x values
+        y (ndarray): y values
+
+    Returns:
+        float: sum of squares
+    """
+    return np.power(np.linalg.norm(y - f(x), 2), 2)
 
 
 

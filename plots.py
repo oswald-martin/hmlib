@@ -52,13 +52,13 @@ def ausgleich_plot(f: Callable[[float], float], x: np.ndarray, y: np.ndarray, lo
     """
     lo = lo if lo != None else np.min(x)
     hi = hi if hi != None else np.max(x)
-    plt.plot(x, y, 'o')
+    plt.plot(x, y, 'o', label='data')
     xx = np.linspace(lo, hi, n)
     if label != None:
         plt.plot(xx, f(xx), label=label)
-        plt.legend()
     else:
         plt.plot(xx, f(xx))
+    plt.legend()
     plt.xlabel('x')
     plt.ylabel('y')
     plt.title('Ausgleichsrechnung')

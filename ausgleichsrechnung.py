@@ -4,7 +4,7 @@ import numpy as np
 
 
 
-def gauss_newton_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam0: np.ndarray, tol: float, max_iter: int, pmax=5, damping=True) -> Callable[[float], float]:
+def gauss_newton_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam0: np.ndarray, tol: float, max_iter: int, pmax=5, damping=False) -> Callable[[float], float]:
     """Gedämpftes Gauss-Newton verfahren Ausgleichsrechnung.
 
 
@@ -18,7 +18,7 @@ def gauss_newton_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y:
         tol (float): error tolarance
         max_iter (int): max number of iterations
         pmax (int, optional): max damping value 2^pmax. Defaults to 5.
-        damping (bool, optional): enable damping. Defaults to True.
+        damping (bool, optional): enable damping. Defaults to False.
 
     Returns:
         function: fittet function f(x) -> y

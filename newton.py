@@ -2,7 +2,7 @@ import numpy as np
 import sympy as sp
 
 
-def newton(f: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, pmax=10, damping=True, simplyfied=False):
+def newton(f: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, pmax=10, damping=False, simplyfied=False):
     """Newton Verfahren zur Nullstellenbestimmung für Systeme
 
     Args:
@@ -11,7 +11,7 @@ def newton(f: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, pmax=10, dampi
         tol (float): error tolerance from root of f
         max_iter (int): max number of iterations
         pmax (int, optional): max damping value 2^pmax. Defaults to 10
-        damping (bool, optional): enable damping. Defaults to True
+        damping (bool, optional): enable damping. Defaults to False
         simplyfied (bool, optional): uses simplyfied newton procedure. Defaults to False
 
     Returns:

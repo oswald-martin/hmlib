@@ -48,6 +48,7 @@ def gauss_newton_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y:
             if p > pmax:
                 p = 0
                 break
+        if p != 0: print(f'damping with p={p}')
         lam = lam + delta / 2**p
         err_func = np.linalg.norm(g(lam))**2
         increment = np.linalg.norm(delta / 2**p)

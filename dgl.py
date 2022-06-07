@@ -68,7 +68,7 @@ def butcher(f, lo, hi, n, y0, a, b, c):
         k = __get_k__(a, c, h, f, x, y[-1])
         return np.append(y, [__rk_step__(y[-1], h, b, k)], axis=0)
     y = functools.reduce(rk_reducer, x[:-1], [y0])
-    return(x, y if isinstance(y[0], float) else y[:,0])
+    return(x, y)
 
 
 @overload

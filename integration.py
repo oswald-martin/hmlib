@@ -167,10 +167,10 @@ if __name__ == '__main__':
     n = 4
     print(romb(f, a, b, n))
 
-    print('example err_est')
+    print('\nexample err_est')
     x = sp.symbols('x')
     f = sp.ln(x ** 2)
     a = 1
     b = 2
     tol = 10 ** -5
-    print(err_est(f, a, b, tol, 'T'))
+    print(err_est(f, a, b, tol, 'S'))

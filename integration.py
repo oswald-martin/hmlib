@@ -82,7 +82,7 @@ def romb(f: Callable[[float], float], a: float, b: float, m: int, print_matrix=F
         f (function): function f(x) -> y
         a (float): integration start x-val
         b (float): integraton end x-val
-        n (int): number romberg matrix rows
+        m (int): number romberg matrix rows
         print_matrix (bool, optional): print romberg matrix. Defaults to False
 
     Returns:

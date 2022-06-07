@@ -54,10 +54,7 @@ def ausgleich_plot(f: Callable[[float], float], x: np.ndarray, y: np.ndarray, lo
     hi = hi if hi != None else np.max(x)
     plt.plot(x, y, 'o', label='data')
     xx = np.linspace(lo, hi, n)
-    if label != None:
-        plt.plot(xx, f(xx), label=label)
-    else:
-        plt.plot(xx, f(xx))
+    plt.plot(xx, f(xx), label='func' if label == None else label)
     plt.legend()
     plt.xlabel('x')
     plt.ylabel('y')

@@ -92,6 +92,7 @@ def linear_ausg(f, x, y, lam_nr):
     A = __get_normalen_A__(f, x, lam_nr)
     q, r = np.linalg.qr(A)
     lamb = np.linalg.solve(r, q.T @ y)
+    print(f'lambda = {lamb}')
     def F(x): return f(x, lamb)
     return F
 

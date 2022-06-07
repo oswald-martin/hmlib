@@ -55,7 +55,7 @@ def ausgleich_plot(f: Callable[[float], float], x: np.ndarray, y: np.ndarray, lo
     plt.plot(x, y, 'o')
     xx = np.linspace(lo, hi, n)
     if label != None:
-        plt.plot(xx, f(xx))
+        plt.plot(xx, f(xx), label=label)
         plt.legend()
     else:
         plt.plot(xx, f(xx))

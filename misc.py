@@ -11,5 +11,5 @@ def h2n(lo: float, hi: float, h: float) -> int:
     Returns:
         int: number of segments
     """
-    a, b = (a, b) if a < b else (b, a)
-    return int(np.ceil((b - a)/h))
+    lo, hi = (lo, hi) if lo < hi else (hi, lo)
+    return int(np.ceil((hi - lo)/h))

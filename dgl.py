@@ -3,20 +3,6 @@ import numpy as np
 import functools
 
 
-def h2n(lo: float, hi: float, h: float) -> int:
-    """Anzahl Abschnitte n aus Abschnittsbreite h rechnen
-
-    Args:
-        lo (float): lower bound
-        hi (float): higher bound
-        h (float): step width
-
-    Returns:
-        int: number of segments
-    """
-    lo, hi = (lo, hi) if lo < hi else (hi, lo)
-    return int(np.ceil((hi - lo)/h))
-
 
 def __rk_step__(yi, h, b, k):
     return yi + h * np.sum((b*k.T).T, axis=0)
@@ -241,6 +227,7 @@ def rk4(f, lo, hi, n, y0):
 # EXAMPLE DGL SYSTEM AND SINGLE DGL
 ####################################################################################################
 if __name__ == '__main__':
+    from misc import h2n
     f = lambda x, z: [z[1], z[2], 10*np.exp(-x) - 5*z[2] - 8*z[1] - 6*z[0]]
     z0 = [2, 0, 0]
     lo = 0

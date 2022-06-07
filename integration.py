@@ -1,20 +1,6 @@
 from typing import Callable
 import numpy as np
 
-def h2n(a: float, b: float, h: float) -> int:
-    """Anzahl Abschnitte n aus Abschnittsbreite h rechnen
-
-    Args:
-        a (float): lower bound
-        b (float): higher bound
-        h (float): step width
-
-    Returns:
-        int: number of segments
-    """
-    a, b = (a, b) if a < b else (b, a)
-    return int(np.ceil((b - a)/h))
-
 
 
 def trap_tab(x: np.ndarray, y: np.ndarray) -> float:

@@ -1,3 +1,13 @@
+"""Interpolazion Modul.
+
+Funcs:
+    - lagrange
+    - nat_spline (Natürliche Kubische Spline)
+
+@author: Martin Oswald
+@license: MIT
+@version: 1.0
+"""
 from typing import Callable
 import numpy as np
 
@@ -30,8 +40,8 @@ def nat_spline(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
     """Natural cubic spline interpolation. suiteble for medium datasets <50
 
 
-        This is the natural cubic spline. for 'not-a-knot', 'periodic', 'clamped'
-        use scipy.interpolate.CubicSpline(x, y, axis=0, bc_type='not-a-knot', extrapolate=None)
+        - This is the natural cubic spline!
+        - For 'not-a-knot', 'periodic', 'clamped' use scipy.interpolate.CubicSpline(x, y, axis=0, bc_type='not-a-knot', extrapolate=None)
 
     Args:
         x (ndarray): x values

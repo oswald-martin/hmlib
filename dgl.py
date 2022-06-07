@@ -1,3 +1,16 @@
+"""Differenzialgleichung Modul.
+
+Funcs:
+    - butcher
+    - euler
+    - mittelpunkt
+    - heun (modEuler)
+    - rk4 (Runge-Kutta4)
+
+@author: Martin Oswald
+@license: MIT
+@version: 1.0
+"""
 from typing import Callable, Tuple, overload
 import numpy as np
 import functools

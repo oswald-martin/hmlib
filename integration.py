@@ -1,3 +1,17 @@
+"""Integrazion Modul.
+
+Funcs:
+    - trap_tab (trapez mit tabelarischen Werten)
+    - recht (rechteck)
+    - simp (Simpson)
+    - romb (Romberg Extrapolazion)
+    - gauss (Gaussformeln für n = 1, 2, 3)
+    - err_est (Fehlerabschätzung für summierte quadraturformeln)
+
+@author: Martin Oswald
+@license: MIT
+@version: 1.0
+"""
 from typing import Callable
 import numpy as np
 import sympy as sp

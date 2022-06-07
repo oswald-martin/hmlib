@@ -1,3 +1,12 @@
+"""Miscellaneous Modul.
+
+Funcs:
+    - h2n (schrittweite zu Anzahl Abschnitten)
+
+@author: Martin Oswald
+@license: MIT
+@version: 1.0
+"""
 import numpy as np
 
 def h2n(lo: float, hi: float, h: float) -> int:

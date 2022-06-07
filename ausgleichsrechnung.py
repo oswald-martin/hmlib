@@ -1,3 +1,14 @@
+"""Ausgleichsrechnung Modul.
+
+Funcs:
+    - gauss-newton verfahren
+    - lineare Ausgleichsrechnung
+    - Fehlerfunktional
+
+@author: Martin Oswald
+@license: MIT
+@version: 1.0
+"""
 from typing import Callable, overload
 import sympy as sp
 import numpy as np
@@ -7,8 +18,7 @@ import numpy as np
 def gauss_newton_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.ndarray, lam0: np.ndarray, tol: float, max_iter: int, pmax=5, damping=False) -> Callable[[float], float]:
     """Gedämpftes Gauss-Newton verfahren Ausgleichsrechnung.
 
-
-        Use Sympy expressions in function f (e.g sp.exp(), sp.sin())
+        - Use Sympy expressions in function f (e.g sp.exp(), sp.sin())
 
     Args:
         f (function): function(x, p) where p is lambda ndarray

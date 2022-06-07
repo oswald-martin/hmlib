@@ -1,3 +1,16 @@
+"""Plots Modul.
+
+Funcs:
+    - plot_vector_field
+    - ausgleich_plot (für Ausgleichsrechnungen)
+    - wireframe
+    - surface
+    - contour
+
+@author: Martin Oswald
+@license: MIT
+@version: 1.0
+"""
 from typing import Callable
 import numpy as np
 import matplotlib.pyplot as plt

@@ -1,3 +1,12 @@
+"""Newton Modul. Nullstellenbestimmung
+
+Funcs:
+    - newton
+
+@author: Martin Oswald
+@license: MIT
+@version: 1.0
+"""
 import numpy as np
 import sympy as sp
 

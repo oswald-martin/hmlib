@@ -81,8 +81,6 @@ def butcher(f, lo, hi, n, y0, a, b, c):
         k = __get_k__(a, c, h, f, x, y[-1])
         return np.append(y, [__rk_step__(y[-1], h, b, k)], axis=0)
     y = functools.reduce(rk_reducer, x[:-1], [y0])
-    z = np.vectorize(lambda x, z: np.array(f(x, z)), signature='(),(y) -> (z)')(x, y)[:, -1]
-    y = np.c_[y, z]
     return(x, y)
 
 

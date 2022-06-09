@@ -33,6 +33,7 @@ def newton(f: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, pmax=10, dampi
     df = sp.lambdify([x], df, 'numpy')
 
     # Numpy
+    xn_min1 = np.full_like(x0, np.inf)
     xn = np.copy(x0)
     k = 1
     while np.linalg.norm(f(xn), 2) > tol and k <= max_iter:
@@ -46,12 +47,12 @@ def newton(f: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, pmax=10, dampi
                     p = i
                     break
             if p == 0:
-                xn = xn + d
+                xn_min1, xn = xn, xn + d
             else:
                 print(f'damping with p={p}')
-                xn = xn + d / (2 ** p)
+                xn_min1, xn = xn_min1, xn, xn + d / (2 ** p)
         else:
-            xn = xn + d
+            xn_min1, xn = xn, xn + d
         print(f'x{k} =\t {xn}') 
         print(f'd{k} =\t {d}\n')
         k = k + 1

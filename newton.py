@@ -11,7 +11,7 @@ import numpy as np
 import sympy as sp
 
 
-def newton(f: sp.Expr, sy: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, pmax=10, damping=False, simplyfied=False):
+def newton(f: sp.Expr, sy: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, pmax=10, damping=False, simplyfied=False) -> np.ndarray:
     """Newton Verfahren zur Nullstellenbestimmung für Systeme
 
     Args:

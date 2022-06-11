@@ -79,6 +79,8 @@ def nat_spline(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
     S[:,1] = (y_diff / h) - (h / 3 * (2*c[:-1] + c[1:]))
     #6 d_i
     S[:,3] = 1/(3*h) * np.diff(c)
+    # Print coeffs
+    print(f'Spline Coefficients [ai, bi, ci, di]:\n{S}\n')
     # define evaluation function that calculates interpolated y
     def interpol(x_eval):
         assert np.logical_and(x_eval >= x.min(), x_eval <= x.max()), 'x_eval needs to be in x range'
@@ -96,5 +98,5 @@ def nat_spline(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
 if __name__ == '__main__':
     x = np.array([8, 10, 12, 14], dtype=np.float64)
     y = np.array([11.2, 13.4, 15.3, 19.5], dtype=np.float64)
-    f_interpol = lagrange(x, y)
+    f_interpol = nat_spline(x, y)
     print(f_interpol([10, 11, 12]))

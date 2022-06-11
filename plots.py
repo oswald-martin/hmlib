@@ -1,6 +1,7 @@
 """Plots Modul.
 
 Funcs:
+    - simple
     - plot_vector_field
     - ausgleich_plot (für Ausgleichsrechnungen)
     - wireframe
@@ -15,6 +16,29 @@ from typing import Callable
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
+
+
+def simple(f: Callable[[float], float], lo: float, hi: float, n=1000, label=None):
+    """plottet ein einfachen Plot der Funktion f
+
+    Args:
+        f (function): f(x, y)
+        xmin (float): lower bound
+        xmax (float): higher bound
+        n (int, optional): datapoints between lo and hi. Defaults to 1000.
+        label (str, optional): legend name of function f
+
+    Returns:
+        plt: plt object. use plt.show() to show it.
+    """
+    x = np.linspace(lo, hi, n)
+    plt.plot(x, f(x), label='func' if label == None else label)
+    plt.legend()
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Simple Plot')
+    return plt
+
 
 def plot_vector_field(f: Callable[[float], float], xmin: float, xmax: float, ymin: float, ymax: float, hx: float, hy: float):
     """plottet ein vektorfeld
@@ -52,7 +76,7 @@ def ausgleich_plot(f: Callable[[float], float], x: np.ndarray, y: np.ndarray, lo
     Edit return with title(), xlabel() etc.
 
     Args:
-        f (funktion): function(x) -> y
+        f (funktion): f(x) -> y
         x (ndarray): x values
         y (ndarray): y values
         lo (int, optional): lower bound. Defaults to x.min

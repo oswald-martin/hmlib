@@ -11,8 +11,10 @@ import numpy as np
 import sympy as sp
 
 
-def newton(f: sp.Expr, sy: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, pmax=10, damping=False, simplyfied=False) -> np.ndarray:
+def newton(f: sp.Expr, sy: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, pmax=10, damping=False, simplyfied=False, abort=None) -> np.ndarray:
     """Newton Verfahren zur Nullstellenbestimmung für Systeme
+
+        The abort function does not need to be invertet (e.g |xn - xn_min1| < 10**-5 )
 
     Args:
         f (Sympy Expr.): Sympy Expression (e.g Matrix)
@@ -23,6 +25,7 @@ def newton(f: sp.Expr, sy: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, p
         pmax (int, optional): max damping value 2^pmax. Defaults to 10
         damping (bool, optional): enable damping. Defaults to False
         simplyfied (bool, optional): uses simplyfied newton procedure. Defaults to False
+        abort(function, optional): define abort function a(f, xn, xn_min1) -> bool. Defaults to |xn - xn_min1| < tol
 
     Returns:
         list: root of f
@@ -39,7 +42,8 @@ def newton(f: sp.Expr, sy: sp.Expr, x0: np.ndarray, tol: float, max_iter: int, p
     xn_min1 = np.full_like(x0, np.inf)
     xn = np.copy(x0)
     k = 1
-    while np.linalg.norm(xn - xn_min1, 2) > tol and k <= max_iter:
+    abort = abort if abort != None else lambda f, xn, xn_min1: np.linalg.norm(xn - xn_min1, 2) < tol
+    while (not abort(f, xn, xn_min1)) and k <= max_iter:
         print(f'it:\t {k}')
         d = np.linalg.solve(df(x0) if simplyfied else df(xn) , -1 * f(xn)).flatten()
         # damping
@@ -78,7 +82,8 @@ if __name__ == '__main__':
     x0 = np.array([4, 2])
     tol = 1e-5
     max_iter = 100
-    print(newton(f, [x1, x2], x0, tol, max_iter))
+    abort = lambda f, xn, xn_min1: np.linalg.norm(f(xn), np.inf) < tol
+    print(newton(f, [x1, x2], x0, tol, max_iter, abort=abort))
 
     print('\nno system example')
     x = sp.symbols('x')

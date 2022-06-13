@@ -2,6 +2,7 @@
 
 Funcs:
     - lagrange
+    - err_est (Fehlerabschätzung)
     - nat_spline (Natürliche Kubische Spline)
 
 @author: Martin Oswald
@@ -10,6 +11,8 @@ Funcs:
 """
 from typing import Callable
 import numpy as np
+import sympy as sp
+import math
 
 
 def lagrange(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
@@ -33,6 +36,34 @@ def lagrange(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
                     li[i] = li[i] * (x_eval - x[j])/(x[i] - x[j])
         return y@li    
     return np.vectorize(interpol)
+
+
+
+def err_est(f: Callable[[float], float], f_ex: sp.Expr, x: np.ndarray):
+    """Fehlerabschätzung für die Interpolation.
+
+        Damit die Fehlerabschätzung funktioniert muss f_ex genügend oft stetig differenzierbar sein!
+
+    Args:
+        f (function): interpolated function
+        f_ex (sp.Expr): exact function
+        x (np.ndarray): x values used for interpolation
+    Returns:
+        function: max error f(x_eval) -> y
+    """
+    a = x.min()
+    b = x.max()
+    z = list(f.free_symbols)[0]
+    fd = sp.diff(f, z, len(x))
+    print(f'fdiff: {fd}')
+    fdpos = float(sp.Float(sp.maximum(fd, z, sp.Interval(a, b))))
+    fdneg = float(sp.Float(sp.maximum(-fd, z, sp.Interval(a, b))))
+    fdmax = np.max([fdpos, fdneg])
+    print(f'fdmax: {fdmax}')
+    def err(xx: float):
+        return np.abs(np.prod(np.full_like(x, xx) - x)) / math.factorial(len(x)) * fdmax
+    return err
+
 
 
 

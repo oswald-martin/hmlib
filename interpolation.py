@@ -26,6 +26,8 @@ def lagrange(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
         function: interpolated function f(x_eval) -> y
     """
     #assert
+    x = np.array(x, dtype=np.float64)
+    y = np.array(y, dtype=np.float64)
     assert np.shape(x) == np.shape(y), 'x and y need to be the same size'
 
     def interpol(x_eval):
@@ -40,7 +42,7 @@ def lagrange(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
 
 
 def err_est(f: Callable[[float], float], f_ex: sp.Expr, x: np.ndarray):
-    """Fehlerabschätzung für die Interpolation.
+    """Fehlerabschätzung für die Lagrange Interpolation.
 
         Damit die Fehlerabschätzung funktioniert muss f_ex genügend oft stetig differenzierbar sein!
 
@@ -51,6 +53,7 @@ def err_est(f: Callable[[float], float], f_ex: sp.Expr, x: np.ndarray):
     Returns:
         function: max error f(x_eval) -> y
     """
+    x = np.array(x, dtype=np.float64)
     a = x.min()
     b = x.max()
     z = list(f.free_symbols)[0]
@@ -81,6 +84,8 @@ def nat_spline(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
     Returns:
         function: interpolated function f(x_eval) -> y
     """
+    x = np.array(x, dtype=np.float64)
+    y = np.array(y, dtype=np.float64)
     #assert
     assert np.shape(x) == np.shape(y), 'x and y need to have the same shape'
     n = len(x)
@@ -92,22 +97,18 @@ def nat_spline(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
     #3  c_0, c_n = 0
     c = np.zeros(n)
     #4
-    A = np.zeros((n-2, n-2))
-    h_sum = h[:-1] + h[1:]
-    #4_1
-    A[0,:2] = [ 2*h_sum[0], h[1] ]
-    #4_2
-    for i in range(1,n-3):
-        A[i,i-1:i+2] = [ h[i], 2 * h_sum[i], h[i+1] ]
-    #4_3
-    A[-1,-2:] = [ h[-2], 2*h_sum[-1] ]
-    #4 solve matrix
-    y_diff = np.diff(y)
-    z = 3 * y_diff[1:] / h[1:] - 3 * y_diff[:-1] / h[:-1]
-    c[1:-1] = np.linalg.solve(A,z)
+    if n >= 3:
+        # Create matrix A using fill_diagonal
+        A = np.zeros((n-2,n-2))
+        np.fill_diagonal(A, 2*(h[:-1] + h[1:]))     # diagonal
+        np.fill_diagonal(A[:-1, 1:], h[1:-1])       # upper diagonal
+        np.fill_diagonal(A[1:, :-1], h[1:-1])       # lower diagonal
+        # step 4 - solve linear systems for c 
+        z = 3*((y[2:]-y[1:-1])/h[1:] - (y[1:-1]-y[:-2])/h[:-1])
+        c[1:-1] = np.linalg.solve(A,z).reshape((n-2))
     S[:,2] = c[:-1]
     #5 b_i
-    S[:,1] = (y_diff / h) - (h / 3 * (2*c[:-1] + c[1:]))
+    S[:,1] = (np.diff(y) / h) - (h / 3 * (2*c[:-1] + c[1:]))
     #6 d_i
     S[:,3] = 1/(3*h) * np.diff(c)
     # Print coeffs
@@ -127,7 +128,8 @@ def nat_spline(x: np.ndarray, y: np.ndarray) -> Callable[[float], float]:
 # EXAMPLE INTERPOLATE
 ####################################################################################################
 if __name__ == '__main__':
+    import plots
     x = np.array([8, 10, 12, 14], dtype=np.float64)
     y = np.array([11.2, 13.4, 15.3, 19.5], dtype=np.float64)
     f_interpol = nat_spline(x, y)
-    print(f_interpol([10, 11, 12]))
+    plots.ausgleich_plot(f_interpol, x, y).show()

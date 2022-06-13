@@ -34,6 +34,9 @@ def gauss_newton_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y:
         function: fittet function f(x) -> y
     """
     # Sympy
+    x = np.array(x, dtype=np.float64)
+    y = np.array(y, dtype=np.float64)
+    lam0 = np.array(lam0, dtype=np.float64)
     p = sp.symbols('p0:%d' % len(lam0))
     g = sp.Matrix([y[k]-f(x[k], p) for k in range(len(x))])
     Dg = g.jacobian(p)
@@ -100,6 +103,8 @@ def linear_ausg(f: Callable[[float, np.ndarray], float], x: np.ndarray, y: np.nd
     """
     ...
 def linear_ausg(f, x, y, lam_nr):
+    x = np.array(x, dtype=np.float64)
+    y = np.array(y, dtype=np.float64)
     A = __get_normalen_A__(f, x, lam_nr)
     q, r = np.linalg.qr(A)
     lamb = np.linalg.solve(r, q.T @ y)

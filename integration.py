@@ -28,6 +28,8 @@ def trap_tab(x: np.ndarray, y: np.ndarray) -> float:
     Returns:
         float: integral result. 
     """
+    x = np.array(x, dtype=np.float64)
+    y = np.array(y, dtype=np.float64)
     dx = x[1:] - x[:-1]
     dy = ( y[1:] + y[:-1] ) / 2
     return np.sum(dx * dy)

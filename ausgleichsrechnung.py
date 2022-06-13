@@ -125,6 +125,8 @@ def fehlerfunktional(f: Callable[[float], float], x: np.ndarray, y: np.ndarray):
     Returns:
         float: sum of squares
     """
+    x = np.array(x, dtype=np.float64)
+    y = np.array(y, dtype=np.float64)
     return np.power(np.linalg.norm(y - f(x), 2), 2)
 
 
